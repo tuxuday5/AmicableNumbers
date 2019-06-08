@@ -16,7 +16,7 @@
 #define AMICABLE_TILL 3000000
 
 #define THREADS 3
-#define MAIN_THREAD_CORE 1
+#define MAIN_THREAD_CORE 0
 
 struct Amicable {
   int amicable1;
@@ -241,6 +241,9 @@ int main(int argc, const char** argv) {
 
   amicablePairs=0;
   remainingThreads=THREADS;
+
+  struct AmicableArrayContainer *c = CreateAmicableArrayContainer(AMICABLE_ARRAY_SIZE);
+
   while(remainingThreads>0) {
     if(poll(poll_thread_pipes,THREADS,-1)<0) {
       errExit("poll");
@@ -250,7 +253,12 @@ int main(int argc, const char** argv) {
       if(poll_thread_pipes[i].revents & POLLIN) {
         readSize = read(poll_thread_pipes[i].fd, &anAmicable, amicableSize);
         if (readSize == amicableSize) {
+
+          if(WasAmicableFound(c,anAmicable.amicable1) || WasAmicableFound(c,anAmicable.amicable2))
+            continue;
+
           printf("%d %d are amicable numbers\n",anAmicable.amicable1,anAmicable.amicable2);
+          AddAmicable(c,&anAmicable);
           amicablePairs++;
         } else if (readSize == 0) { //eof
           printf("read() returned 0 on thread id %d\n",i);
@@ -269,6 +277,8 @@ int main(int argc, const char** argv) {
       }
     }
   }
+
+  FreeAmicableArrayContainer(c);
 
   const long long unsigned elapsed = time_ns() - t1;
 
