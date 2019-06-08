@@ -16,10 +16,10 @@
 #include <sched.h>
 
 #define AMICABLE_ARRAY_SIZE 128
-#define COUNTER 1000000
+#define AMICABLE_TILL 3000000
 
 #define THREADS 3
-#define MAIN_THREAD_CORE 1
+#define MAIN_THREAD_CORE 0
 #define WORKER_THREAD_CORE 2
 
 struct Amicable {
@@ -141,7 +141,7 @@ void FindAmicablePairsFromTo(int from,int to,void *p) {
 void* threadfunc(void* p) {
 
   stick_this_thread_to_core(WORKER_THREAD_CORE);
-  FindAmicablePairsFromTo(1,COUNTER,p);
+  FindAmicablePairsFromTo(1,AMICABLE_TILL,p);
 
   return NULL;
 }
@@ -196,9 +196,9 @@ int main(int argc, const char** argv) {
 
   const long long unsigned elapsed = time_ns() - t1;
 
-  printf("%llu ns to find amicable numbers from %d-%d. Total pairs %d\n",
-      elapsed,1,COUNTER,amicablePairs);
-
+  const long long unsigned nano_second = 1000 * 1000 * 1000;
+  printf("%.4f secs to find amicable numbers from %d-%d. Total pairs %d\n",
+      ((float)elapsed/(float)nano_second),1,AMICABLE_TILL,amicablePairs);
 
 
   return 0;
