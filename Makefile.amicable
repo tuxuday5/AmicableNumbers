@@ -1,4 +1,4 @@
-all: amicable
+all: amicable amicable_st
 
 CC=gcc
 CFLAGS=-Wall -c -I. -ggdb
