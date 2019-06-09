@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math"
   "reflect"
+  "time"
+  "sort"
 )
 
 type ChanDataType struct {
@@ -12,7 +14,7 @@ type ChanDataType struct {
 }
 
 var NumThreads int = 3
-var Counter int =1000000
+var Counter int =3000000
 var Amicable = make(map[int](int))
 var Channels = make([]chan ChanDataType,NumThreads,NumThreads)
 
@@ -67,16 +69,32 @@ func FindAmicablePairsFromTo(from int,to int,myChan chan<- ChanDataType) {
   return
 }
 
+func GetSortedKeys(m map[int]int) []int {
+  var i int = 0
+  mapKeys := make([]int,len(m)) 
+
+  for num1,_ := range m {
+    mapKeys[i] = num1
+    i++
+  }
+
+  sort.Ints(mapKeys)
+  return mapKeys
+}
+
 func main() {
   var step = int(Counter/NumThreads)
   var i,j,openChans int
+  var sTime,eTime time.Time
+  var amicablePairs = make(map[int](int))
+  var ok1,ok2 bool
+  var anAmicable ChanDataType
 
-  i=1
+  i=0
+  sTime = time.Now()
   for j=0;j<NumThreads;j+=1 {
-    //Channels = append(Channels, make(chan ChanDataType))
     Channels[j] = make(chan ChanDataType)
-    //fmt.Printf("go FindAmicablePairsFromTo(%d,%d,%d,%#v))\n",i,i+step,j,Channels[j])
-    go FindAmicablePairsFromTo(i,i+step,Channels[j])
+    go FindAmicablePairsFromTo(i+1,i+step,Channels[j])
     i+=step
   }
 
@@ -101,10 +119,23 @@ func main() {
       continue
     }
 
-    fmt.Printf("%v %v are amicable numbers\n",data.Field(0),data.Field(1))
-    amicableCount++
+    //fmt.Printf("%v %v %d-%d are amicable numbers\n",data.Field(0),data.Field(1),data.Field(0),data.Field(1))
+    anAmicable.amicable1 = int(data.Field(0).Int())
+    anAmicable.amicable2 = int(data.Field(1).Int())
+
+		_, ok1 = amicablePairs[anAmicable.amicable1]
+		_, ok2 = amicablePairs[anAmicable.amicable2]
+
+		if !ok1  && !ok2 {
+			amicablePairs[anAmicable.amicable1] = anAmicable.amicable2
+			amicableCount++
+		}
   }
 
-  fmt.Printf("%d amicable pairs\n",amicableCount)
+  eTime = time.Now()
+  for _,num1 := range GetSortedKeys(amicablePairs) {
+    fmt.Printf("(%v) (%v) are amicable numbers\n",num1,amicablePairs[num1])
+  }
 
+  fmt.Printf("%d amicable Pairs, taking %v time\n",amicableCount,eTime.Sub(sTime).Round(time.Millisecond))
 }

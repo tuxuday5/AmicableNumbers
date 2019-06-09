@@ -3,9 +3,10 @@ package main
 import (
 	"fmt"
 	"math"
+  "time"
 )
 
-var Counter int =1000000
+var Counter int =3000000
 var Amicable = make(map[int](int))
 
 func Log(where string, msg string) {
@@ -28,7 +29,10 @@ func GetMyAmicable(num int) int {
 
 func main() {
   var amicable,aNum,amicable1 int
+  var sTime,eTime time.Time
   var ok bool
+
+  sTime = time.Now()
   for aNum=200;aNum<Counter+1;aNum+=1 {
     _, ok = Amicable[aNum]
     if ok {
@@ -46,7 +50,9 @@ func main() {
     if amicable1==aNum && amicable!=amicable1 {
       Amicable[aNum] = amicable
       Amicable[amicable] = aNum
-      fmt.Printf("%d %d are amicable numbers\n",aNum,amicable)
+      fmt.Printf("(%d) (%d) are amicable numbers\n",aNum,amicable)
     }
   }
+  eTime = time.Now()
+  fmt.Printf("%d amicable Pairs, taking %v time\n",len(Amicable)/2,eTime.Sub(sTime).Round(time.Millisecond))
 }
