@@ -1,1 +1,2 @@
-watch -dc -n 0.5 ps -fL -p 
+watch -dc -n 0.5 ps -fL -o cmd,%cpu,%mem,bsdtime,etime,pid,pgid,lwp -p
+watch -dc -n 0.5 ps -L -o %mem,bsdtime,etime,%cpu,psr,pid,pgid,lwp,args -p `pgrep python3.7`
