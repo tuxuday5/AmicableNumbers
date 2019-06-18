@@ -1,6 +1,7 @@
 import concurrent.futures
-import math
 import time
+import argparse
+import pprint
 
 def SumFactors(n: int) -> int:
     sumFact=0
@@ -12,8 +13,9 @@ def SumFactors(n: int) -> int:
 
     return sumFact-n
 
-def FindAmicablePairs(start: int,end: int,name: str) -> int:
+def FindAmicablePairs(start: int,end: int) -> {}:
     pairs = {}
+    retPair = {}
     for i in range(start,end):
         if pairs.get(i):
             continue
@@ -25,33 +27,36 @@ def FindAmicablePairs(start: int,end: int,name: str) -> int:
             if not pairs.get(no1):
                 pairs[i] = no1
                 pairs[no1] = i
+                retPair[i] = no1
 
-    return pairs
+    return retPair
 
-def main(till: int, threads: int, tout: int=10.0):
-    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+def main(till: int, threads: int):
+    with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
         step = int(till/threads)
     
-        tasks = [ executor.submit(FindAmicablePairs(start=i,end=i+step)) for i in range(200,till,step)]
+        tasks = [ executor.submit(FindAmicablePairs,i,i+step) for i in range(200,till,step)]
 
+        pairs = {}
         while len(tasks) > 0:
-            done, pending = concurrent.futures.wait(tasks,return_when=FIRST_COMPLETED)
+            done, pending = concurrent.futures.wait(tasks,return_when=concurrent.futures.FIRST_COMPLETED)
 
             for d in done:
-                print(d.result)
+                pairs.update(d.result())
 
             tasks = pending
 
+        pprint.pprint(pairs)
+
 if __name__ == '__main__':
     argParser = argparse.ArgumentParser()
-    tout = 1.0
-    argParser.add_argument('-a','--amicable',type=int,default=3000000)
+    argParser.add_argument('-a','--amicable',type=int,required=True)
     argParser.add_argument('-t','--threads',type=int,default=3)
 
     parsedArgs = vars(argParser.parse_args())
 
     sTime = time.perf_counter()
-    main(till=parsedArgs['amicable'],threads=parsedArgs['threads'],tout=tout),
+    main(till=parsedArgs['amicable'],threads=parsedArgs['threads'])
     eTime = time.perf_counter() - sTime
 
-    print(f"Main thread took {eTime-tout:0.4f} seconds")
+    print(f"Main thread took {eTime:0.4f} seconds")
