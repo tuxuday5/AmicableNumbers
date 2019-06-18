@@ -1,0 +1,10 @@
+#/usr/bin/python3.7 amicable.py -s 200 -e 1000200 &
+#/usr/bin/python3.7 amicable.py -s 1000200 -e 2000200 &
+#/usr/bin/python3.7 amicable.py -s 2000200 -e 3000200 &
+#
+#/usr/bin/python3.7 amicableAsyncClient.py  -s 100 -e 100000 -n test
+
+/usr/bin/python3.7 amicableAsyncClient.py -s 200 -e 1000200 -n test1 &
+/usr/bin/python3.7 amicableAsyncClient.py -s 1000200 -e 2000200 -n test2 &
+/usr/bin/python3.7 amicableAsyncClient.py -s 2000200 -e 3000200 -n test3 &
+#watch -dc -n 0.5 ps --sort=pgid,lwp,args -L -o %mem,bsdtime,etime,%cpu,psr,pid,pgid,lwp,args -p `pgrep python3.7`
