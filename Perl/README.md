@@ -20,7 +20,7 @@ Another perl package to parse command line args. This again uses Moose.
 
 #### SplitSeqBySum.pm
 This is a perl package, to split given end/till number into equal parts.
-It splits based on no. of iterations. 
+*It splits based on no. of iterations.*
 
 Given end number as 3 Million and parts as 3. It will not give as 1Million each.
 Rather it will calculate how many iterations are required to find Amicable for a given number. 
@@ -53,7 +53,7 @@ Directory containing some test/learning scripts.
 
 #### useAmicable.pl useAmicableThrdPrint.pl useAmicableThrdQ.pl
 
-** useAmicable.pl **
+**useAmicable.pl**
 This version uses pipes & threads to find amicable numbers and send to parent.
 Version with better performance.
 
@@ -79,7 +79,7 @@ Total Pairs Between (1,1000000) is 44
 Main thread took 98.98 secs
 ```
 
-** useAmicableThrdQ.pl **
+**useAmicableThrdQ.pl**
 This version uses Thread::Queue & threads to find amicable numbers and send to parent.
 
 ```
@@ -106,7 +106,7 @@ Total Pairs Between (1,1000000) is 44
 Main thread took 104.89 secs
 ```
 
-** useAmicableThrdPrint.pl **
+**useAmicableThrdPrint.pl**
 This version uses threads. The threads themselves print the pairs to stdout.
 
 ```
