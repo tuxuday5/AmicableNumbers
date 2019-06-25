@@ -1,0 +1,19 @@
+Amicable
+  no1 => Int, req
+  no2 => Int
+
+IsAmicable
+  true if no1 & no2 are amicable
+
+FindMyAmicable
+  find no2 given no1
+
+Consumer
+  Moose::WithGetOpts - parse command line args
+
+  while 1=1;i<opt.till
+    obj = Amicable(i)
+    obj.FindMyAmicable
+    if obj.IsAmicable()
+      print obj
+

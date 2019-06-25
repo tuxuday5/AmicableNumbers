@@ -1,0 +1,30 @@
+__DATA__
+step=amicable/threads
+core=getNumCpus
+start=200
+end=step
+while threads
+ thread = create_thread start end q core
+ push thread
+continue
+  threads--
+  start=end,end=start+step
+  core++
+  if core==maxcores
+    core=0
+
+while threads
+  d = q.get_data
+  if d==thread_exiting
+    threads--
+  else
+    h[d.1] = d.2
+    h[d.2] = d.1
+
+while threads
+  thread.join
+
+pairs=0
+while k,v = h
+  print k,v
+  pairs++
