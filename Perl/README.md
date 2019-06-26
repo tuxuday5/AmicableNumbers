@@ -51,9 +51,8 @@ $VAR1 = [
 
 Directory containing some test/learning scripts.
 
-#### useAmicable.pl useAmicableThrdPrint.pl useAmicableThrdQ.pl
-
-**useAmicable.pl**
+------
+#### useAmicable.pl
 This version uses pipes & threads to find amicable numbers and send to parent.
 Version with better performance.
 
@@ -79,9 +78,9 @@ Total Pairs Between (1,1000000) is 44
 Main thread took 98.98 secs
 ```
 
-**useAmicableThrdQ.pl**
-This version uses Thread::Queue & threads to find amicable numbers and send to parent.
 
+#### useAmicableThrdPrint.pl
+This version uses threads. The threads themselves print the pairs to stdout.
 ```
 $ perl useAmicableThrdPrint.pl  -a 1000000 -t 3
 [1] Started with range 1-500000 at 1561466431 239700
@@ -104,10 +103,10 @@ $ perl useAmicableThrdPrint.pl  -a 1000000 -t 3
 [1] took 104.55(s) for range 1-500000, pairs 28 exiting
 Total Pairs Between (1,1000000) is 44
 Main thread took 104.89 secs
-```
+``` 
 
-**useAmicableThrdPrint.pl**
-This version uses threads. The threads themselves print the pairs to stdout.
+#### useAmicableThrdQ.pl
+This version uses Thread::Queue & threads to find amicable numbers and send to parent.
 
 ```
 $ perl useAmicableThrdQ.pl  -a 1000000 -t 3
