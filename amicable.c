@@ -140,16 +140,16 @@ void PrintAmicableNumbers(struct AmicableArrayContainer *c) {
 
 int GetMyAmicable(int num) {
   int sqrt = ((int)sqrtf(num)) + 1;
-  int retVal = 0;
+  int retVal = 1;
 
-  for(int i=1;i<sqrt;i++) {
+  for(int i=2;i<sqrt;i++) {
     if((num%i) == 0){
       retVal += i ; 
       retVal += (int)num/i;
     }
   }
 
-  return retVal-num;
+  return retVal;
 }
 
 void FindAmicablePairsFromTo(struct ThreadData *t,struct AmicableArrayContainer *c) {

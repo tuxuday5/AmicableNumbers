@@ -74,7 +74,6 @@ sub LaunchThreads($$$\@\@) {
   #return (@Threads,@Handles);
 }
 
-
 sub ReadNos($\@\%) {
   my ($TotalThreads,$Handles,$Pairs) = @_ ;
   my ($Pair,$Tid,$Num1,$Num2);
@@ -90,7 +89,8 @@ sub ReadNos($\@\%) {
   #select(STDOUT); $| = 1;
   while($Cntrl) {
 
-    $PollObj->poll(1);
+    $PollObj->poll();
+    #$PollObj->poll(1);
     for(my $Idx=0;$Idx < @Handles; $Idx++) {
       $Handle = $Handles[$Idx] ;
       $PollEvents = $PollObj->events($Handle);
@@ -111,7 +111,7 @@ sub ReadNos($\@\%) {
         $PollObj->mask($Handle,0); ## Remove the handle!
         $Cntrl--;
       } elsif ($PollEvents) { ##TODO: Deal this!
-        print("[P] UnHandled poll Event ->$PollEvents<- in Handle ->$Handle<-\n");
+        print("[P] UnHandled poll Event ->$PollEvents<- in Handle ->$Handle<- Idx:$Idx:\n");
       }
     }
   }
@@ -153,6 +153,7 @@ sub FindAmicable($$$$) {
     if(not defined $Obj) {
       $Obj  = Amicable->new('Number' => $Number);
     } else {
+      #$Obj->ClearNumber;
       $Obj->Number($Number);
     }
     
@@ -163,8 +164,6 @@ sub FindAmicable($$$$) {
         print "$Tid,$Number,$Pairs{$Number}\n";
       }
     }
-  
-    $Obj->ClearNumber;
   }
 
   close($Handle);

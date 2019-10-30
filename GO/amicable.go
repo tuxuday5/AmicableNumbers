@@ -14,17 +14,17 @@ func Log(where string, msg string) {
 }
 
 func GetMyAmicable(num int) int {
-  var retVal int = 0
+  var retVal int = 1
   var sqrt int =int(math.Sqrt(float64(num)))+1
   var i int
 
-  for i=1;i<sqrt;i++ {
+  for i=2;i<sqrt;i++ {
     if (num%i) == 0 {
       retVal += i + int(num/i)
     }
   }
 
-  return retVal-num
+  return retVal
 }
 
 func main() {

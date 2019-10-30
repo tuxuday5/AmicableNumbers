@@ -1,7 +1,3 @@
-// Measuring thread switching time using a UNIX pipe.
-//
-// Eli Bendersky [http://eli.thegreenplace.net]
-// This code is in the public domain.
 #define _GNU_SOURCE
 #include <pthread.h>
 #include <stdio.h>
@@ -67,16 +63,16 @@ void errExit(const char* s) {
 
 int GetMyAmicable(int num) {
   int sqrt = ((int)sqrtf(num)) + 1;
-  int retVal = 0;
+  int retVal = 1;
 
-  for(int i=1;i<sqrt;i++) {
+  for(int i=2;i<sqrt;i++) {
     if((num%i) == 0){
       retVal += i ; 
       retVal += (int)num/i;
     }
   }
 
-  return retVal-num;
+  return retVal;
 }
 
 int AddAmicable(struct Amicable *p) {
