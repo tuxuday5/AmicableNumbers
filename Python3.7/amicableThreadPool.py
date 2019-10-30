@@ -4,14 +4,14 @@ import argparse
 import pprint
 
 def SumFactors(n: int) -> int:
-    sumFact=0
+    sumFact=1
     end=int(n**0.5)+1
-    for i in range(1, end):
+    for i in range(2, end):
         if (n%i) == 0:
             sumFact+=i
             sumFact+=(n//i)
 
-    return sumFact-n
+    return sumFact
 
 def FindAmicablePairs(start: int,end: int) -> {}:
     pairs = {}

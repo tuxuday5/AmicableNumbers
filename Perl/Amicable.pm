@@ -36,13 +36,20 @@ has IsAmicable => (
   'lazy' => 1,
 );
 
-after 'ClearNumber' => sub {
+before 'Number' => sub {
   my ($Self) = @_;
 
-  #print("In ClearNumber. No is ", ($Self->HasNumber ? 'defined' : 'not defined') , "\n");
-  $Self->ClearIsAmicable;
-  $Self->ClearMyPair;
+  $Self->ClearIsAmicable if $Self->IsAmicableSet ;
+  $Self->ClearMyPair if $Self->IsMyPairSet ;
 };
+
+#after 'ClearNumber' => sub {
+#  my ($Self) = @_;
+#
+#  #print("In ClearNumber. No is ", ($Self->HasNumber ? 'defined' : 'not defined') , "\n");
+#  $Self->ClearIsAmicable;
+#  $Self->ClearMyPair;
+#};
 
 sub SumOfFactors($;$) {
   my ($Self,$No) = @_ ;
