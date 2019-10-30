@@ -1,4 +1,4 @@
-# Amicable Number Implementation in Python3.7
+# Amicable Number Implementation in Perl
 
 ```
 $ ls -1
